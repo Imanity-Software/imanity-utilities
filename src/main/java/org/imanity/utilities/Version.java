@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 @Builder
 public class Version implements Comparable<Version> {
 
-    private static final Pattern VERSION_PATTERN = Pattern.compile("(?<year>[0-9]{4,})\\.(?<month>[0-9]{2,})\\.(?<release>[0-9]) (?<lts>(?:LTS\\s)*)BUILD (?<build>[0-9])");
+    private static final Pattern VERSION_PATTERN = Pattern.compile("(?<year>[0-9]{4,})\\.(?<month>[0-9]{1,2})\\.(?<release>[0-9]+) (?<lts>(?:LTS\\s)*)BUILD (?<build>[0-9]+)");
 
     public static Version parseVersion(String version) {
         final Matcher matcher = VERSION_PATTERN.matcher(version);
@@ -41,7 +41,7 @@ public class Version implements Comparable<Version> {
 
     @Override
     public String toString() {
-        return FOUR_DIGITS_FORMAT.format(this.year) + "." + TWO_DIGITS_FORMAT.format(this.month) + "." + this.releaseId + (this.lts ? " LTS " : " ") + TWO_DIGITS_FORMAT.format(this.buildId);
+        return FOUR_DIGITS_FORMAT.format(this.year) + "." + TWO_DIGITS_FORMAT.format(this.month) + "." + this.releaseId + (this.lts ? " LTS " : " ") + "BUILD " + this.buildId;
     }
 
     public boolean isAbove(Version version) {

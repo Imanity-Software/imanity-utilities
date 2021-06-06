@@ -57,6 +57,13 @@ public class VersionTest {
     }
 
     @Test
+    public void checkToString() {
+        Version version = Version.parseVersion("2021.07.1 LTS BUILD 22");
+
+        Assert.assertEquals(version.toString(), "2021.07.1 LTS BUILD 22");
+    }
+
+    @Test
     public void checkTreeMap() {
         Version lowerVersion = Version.parseVersion("2021.07.1 LTS BUILD 1");
         Version newerVersion = Version.parseVersion("2021.07.1 LTS BUILD 2");
