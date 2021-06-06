@@ -49,6 +49,14 @@ public class VersionTest {
     }
 
     @Test
+    public void checkIdenticalRelease() {
+        Version lowerVersion = Version.parseVersion("2021.07.1 LTS BUILD 1");
+        Version newerVersion = Version.parseVersion("2021.07.1 LTS BUILD 2");
+
+        Assert.assertTrue(newerVersion.isIdenticalRelease(lowerVersion));
+    }
+
+    @Test
     public void checkTreeMap() {
         Version lowerVersion = Version.parseVersion("2021.07.1 LTS BUILD 1");
         Version newerVersion = Version.parseVersion("2021.07.1 LTS BUILD 2");

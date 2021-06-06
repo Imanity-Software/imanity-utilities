@@ -52,6 +52,10 @@ public class Version implements Comparable<Version> {
         return this.compareTo(version) < 0;
     }
 
+    public boolean isIdenticalRelease(Version version) {
+        return version.year == this.year && version.month == this.month && version.releaseId == this.releaseId && version.lts == this.lts;
+    }
+
     @Override
     public int compareTo(Version version) {
         if (this.equals(version)) {
