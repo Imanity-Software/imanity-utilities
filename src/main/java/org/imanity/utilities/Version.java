@@ -58,15 +58,6 @@ public class Version implements Comparable<Version> {
             return 0;
         }
 
-        // LTS is the most important
-        if (this.lts != version.isLts()) {
-            if (this.lts) {
-                return Integer.MAX_VALUE;
-            } else {
-                return Integer.MIN_VALUE;
-            }
-        }
-
         if (this.year != version.getYear()) {
             return this.year - version.getYear();
         }
@@ -77,6 +68,14 @@ public class Version implements Comparable<Version> {
 
         if (this.releaseId != version.getReleaseId()) {
             return this.releaseId - version.getReleaseId();
+        }
+
+        if (this.lts != version.isLts()) {
+            if (this.lts) {
+                return Integer.MAX_VALUE;
+            } else {
+                return Integer.MIN_VALUE;
+            }
         }
 
         return this.buildId - version.getReleaseId();
