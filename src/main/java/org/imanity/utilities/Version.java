@@ -44,6 +44,10 @@ public class Version implements Comparable<Version> {
         return FOUR_DIGITS_FORMAT.format(this.year) + "." + TWO_DIGITS_FORMAT.format(this.month) + "." + this.releaseId + (this.lts ? " LTS " : " ") + "BUILD " + this.buildId;
     }
 
+    public String toReleaseString() {
+        return FOUR_DIGITS_FORMAT.format(this.year) + "." + TWO_DIGITS_FORMAT.format(this.month) + "." + this.releaseId + (this.lts ? " LTS" : "");
+    }
+
     public boolean isAbove(Version version) {
         return this.compareTo(version) > 0;
     }
@@ -82,6 +86,6 @@ public class Version implements Comparable<Version> {
             }
         }
 
-        return this.buildId - version.getReleaseId();
+        return this.buildId - version.getBuildId();
     }
 }
