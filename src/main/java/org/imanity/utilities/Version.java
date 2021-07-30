@@ -42,11 +42,11 @@ public class Version implements Comparable<Version> {
 
     @Override
     public String toString() {
-        return this.year.toString() + "." + this.month.toString() + "." + this.releaseId + (this.lts ? " LTS " : " ") + "BUILD " + this.buildId;
+        return this.year.toString() + "." + this.month.toString() + "." + this.releaseId.toString() + (this.lts ? " LTS " : " ") + "BUILD " + this.buildId.toString();
     }
 
     public String toReleaseString() {
-        return this.year.toString() + "." + this.month.toString() + "." + this.releaseId + (this.lts ? " LTS" : "");
+        return this.year.toString() + "." + this.month.toString() + "." + this.releaseId.toString() + (this.lts ? " LTS" : "");
     }
 
     public boolean isAbove(Version version) {
