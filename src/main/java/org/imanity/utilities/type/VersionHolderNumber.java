@@ -17,8 +17,11 @@ public class VersionHolderNumber implements VersionHolder {
     }
 
     @Override
-    public boolean equals(int num) {
-        return this.num == num;
+    public boolean equals(VersionHolder versionHolder) {
+        if (versionHolder instanceof VersionHolderWildcard) {
+            return true;
+        }
+        return this.num == versionHolder.getNum();
     }
 
     @Override
@@ -32,14 +35,6 @@ public class VersionHolderNumber implements VersionHolder {
     @Override
     public String toString() {
         return this.decimalFormat != null ? this.decimalFormat.format(this.num) : this.num + "";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        VersionHolderNumber that = (VersionHolderNumber) o;
-        return num == that.num;
     }
 
     @Override

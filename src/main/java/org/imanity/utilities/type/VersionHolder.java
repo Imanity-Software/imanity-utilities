@@ -6,7 +6,7 @@ public interface VersionHolder {
 
     int getNum();
 
-    boolean equals(int num);
+    boolean equals(VersionHolder versionHolder);
 
     int compareTo(VersionHolder versionHolder);
 

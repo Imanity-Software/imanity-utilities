@@ -1,22 +1,21 @@
 package org.imanity.utilities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.imanity.utilities.type.VersionHolder;
+import org.imanity.utilities.type.VersionHolderWildcard;
 
 import java.text.DecimalFormat;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Version implements Comparable<Version> {
 
-    private static final Pattern VERSION_PATTERN = Pattern.compile("(?<year>[0-9]{4,})\\.(?<month>[0-9]{1,2})\\.(?<release>[0-9]+) (?<lts>(?:LTS\\s)*)BUILD (?<build>[0-9]+)");
+    private static final Pattern VERSION_PATTERN = Pattern.compile("(?<year>[0-9*]{4,})\\.(?<month>[0-9*]{1,2})\\.(?<release>[0-9*]+) (?<lts>(?:LTS\\s)*)BUILD (?<build>[0-9*]+)");
 
     public static Version parseVersion(String version) {
         final Matcher matcher = VERSION_PATTERN.matcher(version);
@@ -49,6 +48,10 @@ public class Version implements Comparable<Version> {
         return this.year.toString() + "." + this.month.toString() + "." + this.releaseId.toString() + (this.lts ? " LTS" : "");
     }
 
+    public boolean hasWildcard() {
+        return this.year instanceof VersionHolderWildcard || this.month instanceof VersionHolderWildcard || this.releaseId instanceof VersionHolderWildcard || this.buildId instanceof VersionHolderWildcard;
+    }
+
     public boolean isAbove(Version version) {
         return this.compareTo(version) > 0;
     }
@@ -59,6 +62,19 @@ public class Version implements Comparable<Version> {
 
     public boolean isIdenticalRelease(Version version) {
         return version.year.equals(this.year) && version.month.equals(this.month) && version.releaseId.equals(this.releaseId) && version.lts == this.lts;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Version version = (Version) o;
+        return lts == version.lts && year.equals(version.getYear()) && month.equals(version.getMonth()) && releaseId.equals(version.getReleaseId()) && buildId.equals(version.getBuildId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(year, month, releaseId, buildId, lts);
     }
 
     @Override

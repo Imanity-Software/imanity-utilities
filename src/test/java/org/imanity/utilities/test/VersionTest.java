@@ -71,6 +71,26 @@ public class VersionTest {
     }
 
     @Test
+    public void checkWildcardVersion() {
+        Version version = Version.parseVersion("2021.07.1 LTS BUILD 1");
+        Version versionWildcard = Version.parseVersion("2021.07.1 LTS BUILD *");
+
+        Assert.assertEquals(version.compareTo(versionWildcard), 0);
+        Assert.assertEquals(version, versionWildcard);
+    }
+
+    @Test
+    public void checkWildcardScanning() {
+        Version version = Version.parseVersion("2021.07.1 LTS BUILD 1");
+
+        Assert.assertFalse(version.hasWildcard());
+
+        version = Version.parseVersion("2021.*.1 LTS BUILD 1");
+
+        Assert.assertTrue(version.hasWildcard());
+    }
+
+    @Test
     public void checkTreeMap() {
         Version lowerVersion = Version.parseVersion("2021.07.1 LTS BUILD 1");
         Version newerVersion = Version.parseVersion("2021.07.1 LTS BUILD 2");

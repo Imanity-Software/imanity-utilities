@@ -10,7 +10,7 @@ public class VersionHolderWildcard implements VersionHolder {
     }
 
     @Override
-    public boolean equals(int num) {
+    public boolean equals(VersionHolder versionHolder) {
         return true;
     }
 
@@ -22,11 +22,6 @@ public class VersionHolderWildcard implements VersionHolder {
     @Override
     public String toString() {
         return "*";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return o instanceof VersionHolderWildcard;
     }
 
     @Override
