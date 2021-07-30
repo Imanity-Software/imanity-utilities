@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.imanity.utilities.type.VersionHolder;
 
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
@@ -24,11 +25,11 @@ public class Version implements Comparable<Version> {
         }
 
         return Version.builder()
-                .year(Integer.parseInt(matcher.group("year")))
-                .month(Integer.parseInt(matcher.group("month")))
-                .releaseId(Integer.parseInt(matcher.group("release")))
+                .year(VersionHolder.fromString(matcher.group("year")))
+                .month(VersionHolder.fromString(matcher.group("month")))
+                .releaseId(VersionHolder.fromString(matcher.group("release")))
                 .lts(!matcher.group("lts").isEmpty())
-                .buildId(Integer.parseInt(matcher.group("build")))
+                .buildId(VersionHolder.fromString(matcher.group("build")))
                 .build();
     }
 
@@ -36,7 +37,7 @@ public class Version implements Comparable<Version> {
             FOUR_DIGITS_FORMAT = new DecimalFormat("0000"),
             TWO_DIGITS_FORMAT = new DecimalFormat("00");
 
-    private int year, month, releaseId, buildId;
+    private VersionHolder year, month, releaseId, buildId;
     private boolean lts;
 
     @Override
@@ -67,15 +68,15 @@ public class Version implements Comparable<Version> {
         }
 
         if (this.year != version.getYear()) {
-            return this.year - version.getYear();
+            return this.year.compareTo(version.getYear());
         }
 
         if (this.month != version.getMonth()) {
-            return this.month - version.getMonth();
+            return this.month.compareTo(version.getMonth());
         }
 
         if (this.releaseId != version.getReleaseId()) {
-            return this.releaseId - version.getReleaseId();
+            return this.releaseId.compareTo(version.getReleaseId());
         }
 
         if (this.lts != version.isLts()) {
@@ -86,6 +87,6 @@ public class Version implements Comparable<Version> {
             }
         }
 
-        return this.buildId - version.getBuildId();
+        return this.buildId.compareTo(version.getBuildId());
     }
 }
