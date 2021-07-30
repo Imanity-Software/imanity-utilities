@@ -2,12 +2,14 @@ package org.imanity.utilities.type;
 
 import lombok.RequiredArgsConstructor;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 @RequiredArgsConstructor
 public class VersionHolderNumber implements VersionHolder {
 
     private final int num;
+    private final DecimalFormat decimalFormat;
 
     @Override
     public int getNum() {
@@ -29,7 +31,7 @@ public class VersionHolderNumber implements VersionHolder {
 
     @Override
     public String toString() {
-        return this.num + "";
+        return this.decimalFormat != null ? this.decimalFormat.format(this.num) : this.num + "";
     }
 
     @Override

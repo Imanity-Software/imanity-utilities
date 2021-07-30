@@ -25,15 +25,15 @@ public class Version implements Comparable<Version> {
         }
 
         return Version.builder()
-                .year(VersionHolder.fromString(matcher.group("year")))
-                .month(VersionHolder.fromString(matcher.group("month")))
-                .releaseId(VersionHolder.fromString(matcher.group("release")))
+                .year(VersionHolder.fromString(matcher.group("year"), FOUR_DIGITS_FORMAT))
+                .month(VersionHolder.fromString(matcher.group("month"), TWO_DIGITS_FORMAT))
+                .releaseId(VersionHolder.fromString(matcher.group("release"), null))
                 .lts(!matcher.group("lts").isEmpty())
-                .buildId(VersionHolder.fromString(matcher.group("build")))
+                .buildId(VersionHolder.fromString(matcher.group("build"), null))
                 .build();
     }
 
-    private static final DecimalFormat
+    public static final DecimalFormat
             FOUR_DIGITS_FORMAT = new DecimalFormat("0000"),
             TWO_DIGITS_FORMAT = new DecimalFormat("00");
 
@@ -42,11 +42,11 @@ public class Version implements Comparable<Version> {
 
     @Override
     public String toString() {
-        return FOUR_DIGITS_FORMAT.format(this.year) + "." + TWO_DIGITS_FORMAT.format(this.month) + "." + this.releaseId + (this.lts ? " LTS " : " ") + "BUILD " + this.buildId;
+        return this.year.toString() + "." + this.month.toString() + "." + this.releaseId + (this.lts ? " LTS " : " ") + "BUILD " + this.buildId;
     }
 
     public String toReleaseString() {
-        return FOUR_DIGITS_FORMAT.format(this.year) + "." + TWO_DIGITS_FORMAT.format(this.month) + "." + this.releaseId + (this.lts ? " LTS" : "");
+        return this.year.toString() + "." + this.month.toString() + "." + this.releaseId + (this.lts ? " LTS" : "");
     }
 
     public boolean isAbove(Version version) {
@@ -58,7 +58,7 @@ public class Version implements Comparable<Version> {
     }
 
     public boolean isIdenticalRelease(Version version) {
-        return version.year == this.year && version.month == this.month && version.releaseId == this.releaseId && version.lts == this.lts;
+        return version.year.equals(this.year) && version.month.equals(this.month) && version.releaseId.equals(this.releaseId) && version.lts == this.lts;
     }
 
     @Override
@@ -67,15 +67,15 @@ public class Version implements Comparable<Version> {
             return 0;
         }
 
-        if (this.year != version.getYear()) {
+        if (!this.year.equals(version.getYear())) {
             return this.year.compareTo(version.getYear());
         }
 
-        if (this.month != version.getMonth()) {
+        if (!this.month.equals(version.getMonth())) {
             return this.month.compareTo(version.getMonth());
         }
 
-        if (this.releaseId != version.getReleaseId()) {
+        if (!this.releaseId.equals(version.getReleaseId())) {
             return this.releaseId.compareTo(version.getReleaseId());
         }
 
